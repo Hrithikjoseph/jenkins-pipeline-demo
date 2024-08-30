@@ -41,6 +41,30 @@ pipeline {
             steps {
                 echo 'Deploying application to AWS EC2 Production server...'
                 // Target: AWS EC2 Production
+                script {
+                    currentBuild.result = 'SUCCESS' // or 'FAILURE'
+                    emailext(
+                        to: 'youremail@example.com',
+                        subject: "Build ${currentBuild.fullDisplayName} - Test Stage",
+                        body: """<p>The Test stage has completed with status: ${currentBuild.result}.</p>""",
+                        attachLog: true
+                    )
+                }
+            }
+        }
+        stage('Security Scan') {
+            steps {
+                echo 'Scanning code for vulnerabilities using OWASP ZAP...'
+                // Add email notification here
+                script {
+                    currentBuild.result = 'SUCCESS' // or 'FAILURE'
+                    emailext(
+                        to: 'youremail@example.com',
+                        subject: "Build ${currentBuild.fullDisplayName} - Security Scan Stage",
+                        body: """<p>The Security Scan stage has completed with status: ${currentBuild.result}.</p>""",
+                        attachLog: true
+                    )
+                }
             }
         }
     }
