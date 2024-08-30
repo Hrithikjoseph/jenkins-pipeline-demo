@@ -9,7 +9,7 @@ pipeline {
         }
         stage('Unit and Integration Tests') {
             steps {
-                echo 'Running unit and integration tests using TestNG...'
+                echo 'Running unit and integration tests using JUnit...'
                 // Tools: JUnit, TestNG
                 script {
                     currentBuild.result = 'SUCCESS' 
@@ -31,7 +31,7 @@ pipeline {
         stage('Security Scan') {
             steps {
                 echo 'Scanning code for vulnerabilities using OWASP ZAP...'
-                // Tool: OWASP ZAP
+                // Tool: OWASP ZAP..
                 script {
                     currentBuild.result = 'SUCCESS' 
                     emailext(
@@ -52,7 +52,7 @@ pipeline {
         stage('Integration Tests on Staging') {
             steps {
                 echo 'Running integration tests on staging environment...'
-                // Tools: Selenium, Cucumber, etc.
+                // Tools: Selenium, Cucumber
             }
         }
         stage('Deploy to Production') {
