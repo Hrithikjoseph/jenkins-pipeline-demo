@@ -14,7 +14,7 @@ pipeline {
                 script {
                     currentBuild.result = 'SUCCESS' 
                     emailext(
-                        to: 's223058217@deakin.edu.au',
+                        to: 'hrithikjsoeph72@gmail.com',
                         subject: "Build ${currentBuild.fullDisplayName} - Test Stage",
                         body: """<p>The Test stage has completed with status: ${currentBuild.result}.</p>""",
                         attachLog: true
@@ -35,7 +35,7 @@ pipeline {
                 script {
                     currentBuild.result = 'SUCCESS' 
                     emailext(
-                        to: 's223058217@deakin.edu.au',
+                        to: 'hrithikjsoeph72@gmail.com',
                         subject: "Build ${currentBuild.fullDisplayName} - Security Scan Stage",
                         body: """<p>The Security Scan stage has completed with status: ${currentBuild.result}.</p>""",
                         attachLog: true
