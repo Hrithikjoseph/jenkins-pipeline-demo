@@ -10,7 +10,7 @@ pipeline {
         stage('Unit and Integration Tests') {
             steps {
                 echo 'Running unit and integration tests using TestNG...'
-                // Tools: JUnit, TestNG
+                // Tools: JUnit, TestNG,etc..
                 script {
                     currentBuild.result = 'SUCCESS' 
                     emailext(
