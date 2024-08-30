@@ -11,6 +11,15 @@ pipeline {
             steps {
                 echo 'Running unit and integration tests using JUnit...'
                 // Tools: JUnit, TestNG, etc.
+                script {
+                    currentBuild.result = 'SUCCESS' 
+                    emailext(
+                        to: 's223058217@deakin.edu.au',
+                        subject: "Build ${currentBuild.fullDisplayName} - Test Stage",
+                        body: """<p>The Test stage has completed with status: ${currentBuild.result}.</p>""",
+                        attachLog: true
+                    )
+                }
             }
         }
         stage('Code Analysis') {
@@ -23,6 +32,15 @@ pipeline {
             steps {
                 echo 'Scanning code for vulnerabilities using OWASP ZAP...'
                 // Tool: OWASP ZAP
+                script {
+                    currentBuild.result = 'SUCCESS' 
+                    emailext(
+                        to: 's223058217@deakin.edu.au',
+                        subject: "Build ${currentBuild.fullDisplayName} - Security Scan Stage",
+                        body: """<p>The Security Scan stage has completed with status: ${currentBuild.result}.</p>""",
+                        attachLog: true
+                    )
+                }
             }
         }
         stage('Deploy to Staging') {
@@ -41,29 +59,6 @@ pipeline {
             steps {
                 echo 'Deploying application to AWS EC2 Production server...'
                 // Target: AWS EC2 Production
-                script {
-                    currentBuild.result = 'SUCCESS' 
-                    emailext(
-                        to: 's223058217@deakin.edu.au',
-                        subject: "Build ${currentBuild.fullDisplayName} - Test Stage",
-                        body: """<p>The Test stage has completed with status: ${currentBuild.result}.</p>""",
-                        attachLog: true
-                    )
-                }
-            }
-        }
-        stage('Security Scan') {
-            steps {
-                echo 'Scanning code for vulnerabilities using OWASP ZAP...'
-                script {
-                    currentBuild.result = 'SUCCESS' 
-                    emailext(
-                        to: 's223058217@deakin.edu.au',
-                        subject: "Build ${currentBuild.fullDisplayName} - Security Scan Stage",
-                        body: """<p>The Security Scan stage has completed with status: ${currentBuild.result}.</p>""",
-                        attachLog: true
-                    )
-                }
             }
         }
     }
