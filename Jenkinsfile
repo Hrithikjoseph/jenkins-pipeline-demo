@@ -3,20 +3,20 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                echo 'Building the code using Maven...'
-                // Tool: Maven
+                echo 'Building the project...'
+                // Example build tool: Maven
             }
         }
         stage('Unit and Integration Tests') {
             steps {
-                echo 'Running unit and integration tests using JUnit...'
-                // Tools: JUnit, TestNG
+                echo 'Running unit and integration tests...'
+                // Example test tool: JUnit
                 script {
-                    currentBuild.result = 'SUCCESS' 
                     emailext(
                         to: 'manyamahajan3003@gmail.com',
-                        subject: "Build ${currentBuild.fullDisplayName} - Test Stage",
-                        body: """<p>The Test stage has completed with status: ${currentBuild.result}.</p>""",
+                        subject: "Build ${currentBuild.fullDisplayName} - Unit and Integration Tests",
+                        body: """<p>The Unit and Integration Tests stage has completed successfully.</p>
+                                <p>Check the attached logs for details.</p>""",
                         attachLog: true
                     )
                 }
@@ -24,20 +24,20 @@ pipeline {
         }
         stage('Code Analysis') {
             steps {
-                echo 'Analyzing code using SonarQube...'
-                // Tool: SonarQube
+                echo 'Analyzing code quality...'
+                // Example analysis tool: SonarQube
             }
         }
         stage('Security Scan') {
             steps {
-                echo 'Scanning code for vulnerabilities using OWASP ZAP...'
-                // Tool: OWASP ZAP..
+                echo 'Performing security scan...'
+                // Example security tool: OWASP Dependency-Check
                 script {
-                    currentBuild.result = 'SUCCESS' 
                     emailext(
                         to: 'manyamahajan3003@gmail.com',
-                        subject: "Build ${currentBuild.fullDisplayName} - Security Scan Stage",
-                        body: """<p>The Security Scan stage has completed with status: ${currentBuild.result}.</p>""",
+                        subject: "Build ${currentBuild.fullDisplayName} - Security Scan",
+                        body: """<p>The Security Scan stage has completed successfully.</p>
+                                <p>Check the attached logs for details.</p>""",
                         attachLog: true
                     )
                 }
@@ -45,20 +45,42 @@ pipeline {
         }
         stage('Deploy to Staging') {
             steps {
-                echo 'Deploying application to AWS EC2 Staging server...'
-                // Target: AWS EC2 Staging
+                echo 'Deploying to staging...'
+                // Example deployment tool: AWS CLI
             }
         }
         stage('Integration Tests on Staging') {
             steps {
-                echo 'Running integration tests on staging environment...'
-                // Tools: Selenium, Cucumber
+                echo 'Running integration tests on staging...'
+                // Example test tool: Selenium
             }
         }
         stage('Deploy to Production') {
             steps {
-                echo 'Deploying application to AWS EC2 Production server...'
-                // Target: AWS EC2 Production
+                echo 'Deploying to production...'
+                // Example deployment tool: AWS CLI
+            }
+        }
+    }
+    post {
+        success {
+            script {
+                emailext(
+                    to: 'manyamahajan3003@gmail.com',
+                    subject: "Jenkins Build Successful - ${currentBuild.fullDisplayName}",
+                    body: """<p>The build was successful.</p><p>Check the attached logs for details.</p>""",
+                    attachLog: true
+                )
+            }
+        }
+        failure {
+            script {
+                emailext(
+                    to: 'manyamahajan3003@gmail.com',
+                    subject: "Jenkins Build Failed - ${currentBuild.fullDisplayName}",
+                    body: """<p>The build has failed.</p><p>Check the attached logs for details.</p>""",
+                    attachLog: true
+                )
             }
         }
     }
